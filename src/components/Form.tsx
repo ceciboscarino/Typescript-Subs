@@ -1,34 +1,40 @@
-import {useState} from 'react'
+import useSubForm from '../hooks/useNewSubForm'
 import {Sub} from '../types';
 
-interface FormState {
-    inputValues: Sub
-}
+
 
 interface FormProps{
-    onNewSub: React.Dispatch<React.SetStateAction<Sub[]>>
+    onNewSub: (newSub: Sub) => void
 }
+
 
 
 const Form =({onNewSub}: FormProps) => {
 
-const[inputValues, setInputValues] = useState<FormState['inputValues']>({
-    nick:'',
-    subMonths:0,
-    avatar:'',
-    description:''
-})
+const[inputValues, dispatch] = useSubForm()
 
     const handleSubmit = (evt :React.FormEvent<HTMLFormElement>) => {
         evt.preventDefault()
-        onNewSub(subs=> ([...subs, inputValues]))
+        onNewSub(inputValues)
+        dispatch ({type:"clear"})
     }
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setInputValues ({...inputValues, [e.target.name]: e.target.value })
+        const {name, value} = e.target 
+        dispatch({
+            type: "change_value",
+            payload:{
+                inputName: name,
+                inputValue: value 
+            }
+        })
+        
     }
 
+    const handClear = ()=>{
+        dispatch ({type:"clear"})
+    }
     return(
         <div>
             <form onSubmit={handleSubmit}>
@@ -36,8 +42,8 @@ const[inputValues, setInputValues] = useState<FormState['inputValues']>({
                 <input onChange={handleChange} value= {inputValues.subMonths}type= 'number' name= 'subMonths' placeholder="subMonths"/>
                 <input onChange={handleChange} value= {inputValues.avatar}type= 'text' name= 'avatar' placeholder="avatar"/>
                 <textarea onChange={handleChange} value= {inputValues.description} name= 'description' placeholder="description"/>
-
-                <button>Save new Sub!</button>
+                <button onClick= {handClear} type= 'button'>Clear the form</button>
+                <button type= 'submit'>Save new Sub!</button>
             </form>
         </div>
     )
