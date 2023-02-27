@@ -27,7 +27,7 @@ useEffect(() => {
   }
 
   const mapFromApiToSubs = (apiResponse : SubsResponseFromApi): Array<Sub> =>{
-    return apiResponse.map(subFromApi =>{
+    return apiResponse.users.map(subFromApi =>{
       const{
         username: nick,
         age:subMonths,

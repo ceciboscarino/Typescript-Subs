@@ -5,9 +5,18 @@ export interface Sub{
     description?: string 
   }
 
-  export type SubsResponseFromApi = Array<{
+ 
+
+  interface SubApi{
     username: string,
     age: number,
     image: string,
     lastName: string 
-  }>
+  }
+  export interface SubsResponseFromApi{
+    users: Array<SubApi>
+    limit: number
+    skip:number
+    total:number
+    
+  }
