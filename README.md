@@ -1,6 +1,14 @@
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+I did this project with Typescript, interfaces, axios, fetch, Json mapping.
+
+Install requirementes:
+"npm install axios -E"
+
+
+
+
 
 ## Available Scripts
 

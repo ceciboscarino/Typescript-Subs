@@ -4,6 +4,7 @@ import './App.css';
 import List from './components/List';
 import Form from './components/Form';
 import {Sub, SubsResponseFromApi} from './types';
+import axios from 'axios';
 
 
 
@@ -21,9 +22,10 @@ const [newSubNum, setNewSubNum]= useState<AppState["newSubNum"]>(0)
 const divRef = useRef<HTMLDivElement>(null)
 
 useEffect(() => {
-  const fetchSubs=(): Promise<SubsResponseFromApi>=> {
-    return  fetch('https://dummyjson.com/users?limit=5')
-    .then(res=>res.json())
+  const fetchSubs=()=> {
+    //return  fetch('https://dummyjson.com/users?limit=5')
+    return axios.get('https://dummyjson.com/users?limit=5')
+    .then(res=>res.data)
   }
 
   const mapFromApiToSubs = (apiResponse : SubsResponseFromApi): Array<Sub> =>{
@@ -44,10 +46,8 @@ useEffect(() => {
   }
 
   fetchSubs() 
-   .then(apiSubs=>{
-    const subs = mapFromApiToSubs(apiSubs)
-    setSubs(subs)
-   })
+   .then(mapFromApiToSubs)
+    .then(setSubs)
   
 }, [])
 
